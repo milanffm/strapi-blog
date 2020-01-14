@@ -5,13 +5,15 @@
  */
 
 const slugify = require('slugify');
-const config = {}
+const config = {
+	lower: true
+};
 
 module.exports = {
 	beforeSave: async model => {
 		// console.log('beforeSave', model.title);
 		if (model.title) {
-			model.slug = slugify(model.title);
+			model.slug = slugify(model.title, config);
 		}
 		// console.log('beforeSave', model.slug);
 	},
@@ -19,7 +21,7 @@ module.exports = {
 		if (model.getUpdate()) {
 			if (model.getUpdate().title) {
 				model.update({
-					slug: slugify(model.getUpdate().title),
+					slug: slugify(model.getUpdate().title, config),
 				});
 			}
 		}
